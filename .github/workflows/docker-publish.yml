@@ -35,6 +35,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         
+      - name: Install dependancies
+        run: yarn
+        
       - name: Build backstage backend
         run: |
           yarn tsc
