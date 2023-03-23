@@ -1,13 +1,16 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: backstage-dc
-  description: An example of a Backstage application.
-  # Example for optional annotations
-  # annotations:
-  #   github.com/project-slug: backstage/backstage
-  #   backstage.io/techdocs-ref: dir:.
+  name: backstage
+  description: Datacom Frontend Development team backstage instance
+  annotations:
+    #github.com/project-slug: backstage/backstage
+    #backstage.io/techdocs-ref: dir:.
+    backstage.io/view-url: url:https://b.lambda.fyi/catalog
+    backstage.io/edit-url: url:https://dev.azure.com/Microsoft-Build-Team-Projects/_git/BackstageIO?path=/catalog-info.yaml
+    backstage.io/source-location: url:https://dev.azure.com/Microsoft-Build-Team-Projects/_git/BackstageIO
+    dev.azure.com/project-repo: BackstageIO/BackstageIO
 spec:
   type: website
-  owner: john@example.com
+  owner: sam.mackenzie@datacom.co.nz
   lifecycle: experimental
