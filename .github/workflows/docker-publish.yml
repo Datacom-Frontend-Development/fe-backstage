@@ -88,7 +88,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
       # repository is public to avoid leaking data.  If you would like to publish
@@ -101,3 +100,24 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+        
+      
+      
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.BACKSTAGE_AZURE_CREDENTIALS }}
+
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n backstage -g Mocatad_EV103_AE --server ghcr.io --username  ${{ secrets.BACKSTAGE_REGISTRY_USERNAME }} --password ${{ secrets.BACKSTAGE_REGISTRY_PASSWORD }}
+            az containerapp update -n backstage -g Mocatad_EV103_AE --image ghcr.io/backstage:${{ github.sha }}
