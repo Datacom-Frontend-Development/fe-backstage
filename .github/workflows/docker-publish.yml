@@ -127,4 +127,4 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az containerapp registry set -n backstage -g Mocatad_EV103_AE --server ghcr.io --username  ${{ secrets.BACKSTAGE_REGISTRY_USERNAME }} --password ${{ secrets.BACKSTAGE_REGISTRY_PASSWORD }}
-            az containerapp update -n backstage -g Mocatad_EV103_AE --image ghcr.io/datacom-frontend-development/backstage:master
+            az containerapp update -n backstage -g Mocatad_EV103_AE --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
