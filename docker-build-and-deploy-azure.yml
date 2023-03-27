@@ -20,6 +20,21 @@ jobs:
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
+        
+      - name: Install dependancies
+        run: yarn
+        
+      - name: Build backstage backend
+        run: |
+          yarn tsc
+          yarn build:backend
+
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -36,8 +51,10 @@ jobs:
         with:
           push: true
           tags: ghcr.io/datacom-frontend-development/fe-backstage:${{ github.sha }}
-          file: ./Dockerfile
-          context: ./
+          file: packages/backend/Dockerfile
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
 
   deploy:
