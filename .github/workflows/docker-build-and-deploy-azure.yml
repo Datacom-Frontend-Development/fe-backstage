@@ -42,9 +42,9 @@ jobs:
       - name: Log in to container registry
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ secrets.BACKSTAGE_REGISTRY_USERNAME }}
-          password: ${{ secrets.BACKSTAGE_REGISTRY_PASSWORD }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v2
